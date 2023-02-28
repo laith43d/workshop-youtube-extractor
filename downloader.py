@@ -7,6 +7,7 @@
     6. Multiple quality download
 """
 
+
 """YoutubeDL class.
 
  YoutubeDL objects are the ones responsible of downloading the
@@ -227,28 +228,24 @@ keywords = [
     'yanni',
 ]
 
-input_file = open("playlists.txt")
-
-with open('output.json', 'a+') as output:
-    for pl in input_file:
-        print(pl, end='')
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            pl_info = ydl.extract_info(pl, download=False)
-            for v in pl_info['entries']:
-                if not v:
-                    continue
-
-                # Keyword filtration
-                for kw in keywords:
-                    if kw in str(v['title']).lower():
-                        print(f'video {v["title"]} has been ignored')
+with open("playlists.txt") as input_file:
+    with open('output.json', 'a+') as output:
+        for pl in input_file:
+            print(pl, end='')
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                pl_info = ydl.extract_info(pl, download=False)
+                for v in pl_info['entries']:
+                    if not v:
                         continue
 
-                    output.write('\n')
-                    output.write(f'ID: {v["id"]} - Title: {v["title"]}')
+                    # Keyword filtration
+                    for kw in keywords:
+                        if kw in str(v['title']).lower():
+                            print(f'video {v["title"]} has been ignored')
+                            continue
 
-input_file.close()
-
+                        output.write('\n')
+                        output.write(f'ID: {v["id"]} - Title: {v["title"]}')
 
 '''
     to contact me email me on: L@LZAH.online
